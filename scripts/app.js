@@ -16,7 +16,7 @@ class Shape {
 		this.width = 100;
 		this.height = 100;
 
-		this.color = "red";
+		this.color = "blue";
 	}
 
 	draw() {

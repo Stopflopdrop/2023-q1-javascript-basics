@@ -17,6 +17,23 @@ class Shape {
 		this.height = 100;
 
 		this.color = "blue";
+
+		this.speed = 10;
+		this.xDirection = 1;
+		this.yDirection = 1;
+	}
+
+	update() {
+		if (this.x < 0 || this.x + this.width > canvas.width) {
+			this.xDirection *= -1;
+		}
+
+		if (this.y < 0 || this.y + this.height > canvas.height) {
+			this.yDirection *= -1;
+		}
+
+		this.x += this.speed * this.xDirection;
+		this.y += this.speed * this.yDirection;
 	}
 
 	draw() {
@@ -25,13 +42,28 @@ class Shape {
 	}
 }
 
-let s1 = new Shape(0, 0);
+let shapes = [];
 
-s1.draw();
+for (let i = 0; i < 20; i++) {
+	let s = new Shape(
+		Math.random() * canvas.width,
+		Math.random() * canvas.height
+	);
 
-canvas.addEventListener("click", () => {
+	s.speed = Math.random() * 5 + 5;
+
+	shapes.push(s);
+}
+
+let animationLoop = function () {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	s1.x += 10;
-	s1.y += 10;
-	s1.draw();
-});
+
+	shapes.forEach((s) => {
+		s.update();
+		s.draw();
+	});
+
+	window.requestAnimationFrame(animationLoop);
+};
+
+window.requestAnimationFrame(animationLoop);
